@@ -1,71 +1,86 @@
 import { useState } from 'react';
 
 function App() {
-  const [troco, setTroco] = useState(0);
-  const [total, setTotal] = useState(0);
+  var [troco, setTroco] = useState(0);
+  var [estado, setEstado] = useState(0);
+  var [isFinal, setIsFinal] = useState(false);
+
+  function StateChange(symbol) {
+    if(estado < 6){
+      if(symbol === "1") {setEstado(estado + 1)}
+      if(symbol === "2") {setEstado(estado + 2)}
+      if(symbol === "5") {setEstado(estado + 5)}
+      else(console.log(estado))
+    }
+    if(estado === 6){
+      if(symbol === "1") {setEstado(estado + 1)}
+      if(symbol === "2") {setEstado(estado + 2)}
+      if(symbol === "5") {setEstado(estado + 5)}
+      if(symbol === "a") {setEstado(0); setIsFinal(true)}
+    }
+    if(estado === 7){
+      if(symbol === "1") {setEstado(estado + 1)}
+      if(symbol === "2") {setEstado(estado + 2)}
+      if(symbol === "5") {setEstado(estado + 5)}
+      if(symbol === "a") {setTroco(1); setEstado(0); setIsFinal(true)}
+      if(symbol === "b") {setEstado(0); setIsFinal(true)}
+    }
+    if(estado === 8){
+      if(symbol === "1") {setEstado(estado + 1)}
+      if(symbol === "2") {setEstado(estado + 2)}
+      if(symbol === "5") {setEstado(estado + 5)}
+      if(symbol === "a") {setTroco(2); setEstado(0); setIsFinal(true)}
+      if(symbol === "b") {setTroco(1); setEstado(0); setIsFinal(true)}
+      if(symbol === "c") {setEstado(0); setIsFinal(true)}
+    }
+    if(estado > 8){
+      if(symbol === "1") {setEstado(estado + 1)}
+      if(symbol === "2") {setEstado(estado + 2)}
+      if(symbol === "5") {setEstado(estado + 5)}
+      if(symbol === "a") {setTroco(estado - 6); setEstado(0); setIsFinal(true)}
+      if(symbol === "b") {setTroco(estado - 7); setEstado(0); setIsFinal(true)}
+      if(symbol === "c") {setTroco(estado - 8); setEstado(0); setIsFinal(true)}
+    }
+    
+  }
 
   return (
     <div class='container'>
-      <h3>Total</h3>
-      <p>{total}</p>
       <div class='row'>
         <div class='col'>
-          <button
-            className='btn'
-            onClick={() =>
-              total - 6 >= 0 ? setTotal(total - 6) : setTotal(total)
-            }
-          >
+          <button className='btn'onClick={() => StateChange("a")}>
             Doce A
           </button>
-
-          <button
-            className='btn'
-            onClick={() =>
-              total - 7 >= 0 ? setTotal(total - 7) : setTotal(total)
-            }
-          >
+          <br />
+          <button className='btn' onClick={() => StateChange("b")}>
             Doce B
           </button>
-
-          <button
-            className='btn'
-            onClick={() =>
-              total - 8 >= 0 ? setTotal(total - 8) : setTotal(total)
-            }
-          >
+          <br />
+          <button className='btn' onClick={() => StateChange("c")}>
             Doce C
           </button>
         </div>
-      </div>
-      <div class='row'>
         <div class='col'>
-          <button className='btn' onClick={() => setTotal(total + 1)}>
+          <button className='btn' onClick={() => StateChange("1")}>
             1 real
           </button>
-
-          <button className='btn' onClick={() => setTotal(total + 2)}>
+          <br />
+          <button className='btn' onClick={() => StateChange("2")}>
             2 reais
           </button>
-
-          <button className='btn' onClick={() => setTotal(total + 5)}>
+          <br />
+          <button className='btn' onClick={() => StateChange("5")}>
             5 reais
           </button>
         </div>
-        <div class='row'>
-          <div class='col'>
-            <h3>Troco</h3>
-            <p>{troco}</p>
-            <button
-              className='confirm'
-              onClick={() => setTroco(total) & setTotal(0)}
-            >
-              Confirmar
-            </button>
-            <button className='reset' onClick={() => setTotal(0) & setTroco(0)}>
-              Reset
-            </button>
-          </div>
+        <div class='col'>
+          Total
+          <p>{estado}</p>
+          Troco
+          <p>{troco}</p>
+          <button className='btn' onClick={() => setEstado(0) & setTroco(0) & setIsFinal(false)}>
+            Limpar
+          </button>
         </div>
       </div>
     </div>
